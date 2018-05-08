@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KudaGo</string>
+    <string name="descLogoImage">Logo</string>
+    <string name="selectCity">Выберите город</string>
 </resources>

@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * Created by alex on 07.05.2018.
  */
-abstract class BaseActivity<V : BaseMvpView, P : BaseMvpPresenter<V>> : AppCompatActivity() {
+abstract class BaseActivity<in V : BaseMvpView, P : BaseMvpPresenter<V>> : AppCompatActivity() {
 
     @Inject
     lateinit var mvpPresenter: P
