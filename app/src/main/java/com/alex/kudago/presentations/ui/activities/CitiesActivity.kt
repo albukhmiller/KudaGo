@@ -34,7 +34,7 @@ class CitiesActivity : BaseActivity<CitiesView, CitiesPresenter>(), CitiesView {
         rvCities.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rvCities.hasFixedSize()
         rvCities.adapter = CitiesAdapter(cities, intent.getStringExtra("city")) {
-            intent.putExtra("newCity", it.name)
+            intent.putExtra("newCity", it)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
