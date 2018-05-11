@@ -7,5 +7,5 @@ import com.alex.kudago.presentations.views.EventsView
  */
 interface EventsPresenter : BaseMvpPresenter<EventsView> {
 
-    fun onLoadEvents(slug : String)
+    fun onLoadEvents(url :String, slug : String)
 }

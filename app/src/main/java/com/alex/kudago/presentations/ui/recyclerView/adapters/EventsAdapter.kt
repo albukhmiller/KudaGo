@@ -18,4 +18,5 @@ class EventsAdapter(private val events: ArrayList<Event>) : RecyclerView.Adapter
     override fun getItemCount() = events.size
 
     override fun onBindViewHolder(holder: EventsHolder, position: Int) = holder.bind(events[position])
+
 }

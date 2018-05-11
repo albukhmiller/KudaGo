@@ -19,8 +19,8 @@ class LoaderEventsIntractor @Inject constructor(private val serverApi: ServerKud
         this.listener = listener
     }
 
-    fun loadEvents(slug: String) {
-        serverApi.getEvents(slug)
+    fun loadEvents(url : String, slug: String) {
+        serverApi.getEvents(url, slug)
                 .enqueue(object : retrofit2.Callback<PreviewEvents> {
                     override fun onFailure(call: Call<PreviewEvents>?, t: Throwable?) {
                         listener?.onFailureLoadPreviewEvents()

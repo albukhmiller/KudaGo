@@ -18,8 +18,8 @@ class EventsPresenterImpl @Inject constructor(private val loaderEventsIntractor:
         loaderEventsIntractor.setListener(this)
     }
 
-    override fun onLoadEvents(slug : String) {
-        loaderEventsIntractor.loadEvents(slug)
+    override fun onLoadEvents(url: String, slug : String) {
+        loaderEventsIntractor.loadEvents(url, slug)
     }
 
     override fun onSuccessLoadPreviewEvents(events: PreviewEvents) {
