@@ -55,4 +55,7 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Slider
+    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
 }

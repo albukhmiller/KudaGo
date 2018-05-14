@@ -12,11 +12,13 @@ import kotlinx.android.synthetic.main.item_events.view.*
  */
 class EventsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(item: Event) {
+    fun bind(item: Event, listener : (Event) -> Unit) {
         itemView.tvNameEvent.text = item.title
 
+        itemView.setOnClickListener({listener(item)})
+
         if (item.place != null)
-            itemView.tvLocation.text = item.place.address
+            itemView.tvLocation.text = item.place?.address
         else itemView.tvLocation.visibility = View.GONE
 
         itemView.tvPreview.text = item.description

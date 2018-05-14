@@ -10,13 +10,13 @@ import com.alex.kudago.presentations.ui.recyclerView.holders.EventsHolder
 /**
  * Created by alex on 09.05.2018.
  */
-class EventsAdapter(private val events: ArrayList<Event>) : RecyclerView.Adapter<EventsHolder>() {
+class EventsAdapter(private val events: ArrayList<Event>, private val listener: (Event) -> Unit) : RecyclerView.Adapter<EventsHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = EventsHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.item_events, parent, false))
 
     override fun getItemCount() = events.size
 
-    override fun onBindViewHolder(holder: EventsHolder, position: Int) = holder.bind(events[position])
+    override fun onBindViewHolder(holder: EventsHolder, position: Int) = holder.bind(events[position], listener)
 
 }

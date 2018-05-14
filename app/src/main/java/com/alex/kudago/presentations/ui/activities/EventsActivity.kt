@@ -23,7 +23,7 @@ import org.jetbrains.anko.toast
 class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView {
 
     private val SELECT_CITY = 1
-    private val BASE_URL = "public-api/v1.4/events/?expand=place,images&fields=description,is_free,price,dates,place,title,images&text_format=text"
+    private val BASE_URL = "events/?expand=place,images&fields=description,is_free,id,price,dates,place,title,images&text_format=text"
 
     private var url: String? = null
     private var slug: String? = "msk"
@@ -63,7 +63,9 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView {
         pbLoader.visibility = View.GONE
         itemsEvents.addAll(events.events)
         if (adapter == null) {
-            adapter = EventsAdapter(itemsEvents)
+            adapter = EventsAdapter(itemsEvents){
+                startActivity(intentFor<DetailEventActivity>("event" to it))
+            }
             rvEvents.adapter = adapter
         } else
             rvEvents.adapter = adapter
