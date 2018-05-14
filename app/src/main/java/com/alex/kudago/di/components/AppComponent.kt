@@ -6,6 +6,7 @@ import com.alex.kudago.di.modules.AppModule
 import com.alex.kudago.di.modules.DataModule
 import com.alex.kudago.di.modules.PresenterModule
 import com.alex.kudago.presentations.ui.activities.CitiesActivity
+import com.alex.kudago.presentations.ui.activities.DetailEventActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -22,4 +23,5 @@ interface AppComponent {
     fun inject(app: Application)
     fun inject(mainActivity: EventsActivity)
     fun inject(citiesActivity: CitiesActivity)
+    fun inject(detailEventActivity: DetailEventActivity)
 }

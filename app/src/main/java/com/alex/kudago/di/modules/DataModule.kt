@@ -17,7 +17,7 @@ class DataModule {
     @Singleton
     @Provides
     fun providesServerApi() = Retrofit.Builder()
-            .baseUrl("https://kudago.com/")
+            .baseUrl("https://kudago.com/public-api/v1.4/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ServerKudaGoApi::class.java)

@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentations.ui.activities.CitiesActivity"></activity>
+        <activity android:name=".presentations.ui.activities.CitiesActivity" />
+        <activity android:name=".presentations.ui.activities.DetailEventActivity"></activity>
     </application>
 
 </manifest>
