@@ -3,6 +3,8 @@ package com.alex.kudago.presentations.ui.activities
 import android.app.Activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import com.alex.kudago.App
 import com.alex.kudago.R
@@ -27,6 +29,7 @@ class CitiesActivity : BaseActivity<CitiesView, CitiesPresenter>(), CitiesView {
             setResult(Activity.RESULT_CANCELED, intent)
             onBackPressed()
         }
+
         mvpPresenter.onLoadCitiesList()
     }
 
@@ -41,7 +44,6 @@ class CitiesActivity : BaseActivity<CitiesView, CitiesPresenter>(), CitiesView {
     }
 
     override fun onFailureLoadCitiesList() {
-        toast("При загрузке списка городов произошла ошибка")
+        layoutError.visibility = View.VISIBLE
     }
-
 }

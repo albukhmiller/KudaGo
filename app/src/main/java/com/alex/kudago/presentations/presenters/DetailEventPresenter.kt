@@ -7,7 +7,6 @@ import com.alex.kudago.presentations.views.DetailEventView
  */
 interface DetailEventPresenter: BaseMvpPresenter<DetailEventView> {
 
-    fun convertData(start: String, end: String) : String
 
     fun onLoadDetailEvent(id : Long)
 }

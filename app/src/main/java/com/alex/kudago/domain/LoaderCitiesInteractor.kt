@@ -1,6 +1,5 @@
 package com.alex.kudago.domain
 
-import android.util.Log
 import com.alex.kudago.model.City
 import com.alex.kudago.model.api.ServerKudaGoApi
 import retrofit2.Call
@@ -13,9 +12,9 @@ import javax.inject.Inject
  */
 class LoaderCitiesInteractor @Inject constructor(private val serverApi: ServerKudaGoApi) {
 
-    private var listener: InteractorListener? = null
+    private var listener: InteractorListenerCity? = null
 
-    fun setInteractorListener(listener: InteractorListener) {
+    fun setInteractorListener(listener: InteractorListenerCity) {
         this.listener = listener
     }
 

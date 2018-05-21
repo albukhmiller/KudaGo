@@ -25,9 +25,7 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -58,4 +56,10 @@ dependencies {
 
     //Slider
     implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    kapt "android.arch.persistence.room:compiler:1.0.0"
+
+
 }

@@ -8,26 +8,29 @@ import java.util.*
  */
 class TimeConverter {
 
-    fun convertTime(start: String?, end: String?): String {
+    private val formatter = SimpleDateFormat("dd MMMM")
 
-        val formatter = SimpleDateFormat("dd MMMM")
-        val calendarStart = Calendar.getInstance()
-        val calendarEnd = Calendar.getInstance()
+    private val calendarStart = Calendar.getInstance()
+    private val calendarEnd = Calendar.getInstance()
+
+    fun convertSrtingToDate(start: String?, end: String?): String {
 
         var startTime = formatter.format(Date(start?.toLong()!! * 1000))
         var endTime = formatter.format(Date(end?.toLong()!! * 1000))
 
         calendarStart.time = formatter.parse(startTime)
         calendarEnd.time = formatter.parse(endTime)
+
         if (compareDayTo(calendarStart, calendarEnd))
             return startTime
-        if (compareMonthTo(calendarStart.get(Calendar.MONTH), calendarEnd.get(Calendar.MONTH))) {
 
+        if (compareMonthTo(calendarStart.get(Calendar.MONTH), calendarEnd.get(Calendar.MONTH)))
             return "${calendarStart[Calendar.DAY_OF_MONTH]}-${calendarEnd[Calendar.DAY_OF_MONTH]} " +
                     "${SimpleDateFormat("MMMM").format(calendarStart[Calendar.MONTH])}"
-        }
+
         return "$startTime - $endTime"
     }
+
 
     private fun compareMonthTo(month1: Int, month2: Int): Boolean {
         if (month1 == month2)

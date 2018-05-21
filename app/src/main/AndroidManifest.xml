@@ -12,15 +12,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentations.ui.activities.EventsActivity">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBg7Y15p2Fj00RmPSTFEqZaNHgbkkXF6Gw" />
+
+
+        <activity
+            android:name=".presentations.ui.activities.EventsActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentations.ui.activities.CitiesActivity" />
-        <activity android:name=".presentations.ui.activities.DetailEventActivity"></activity>
+        <activity
+            android:name=".presentations.ui.activities.CitiesActivity"
+            android:configChanges="orientation" />
+        <activity
+            android:name=".presentations.ui.activities.DetailEventActivity"
+            android:configChanges="orientation"></activity>
     </application>
 
 </manifest>

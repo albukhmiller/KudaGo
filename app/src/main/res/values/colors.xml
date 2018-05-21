@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorCity">#E62D37</color>
+    <color name="colorPlaceholder">#cccccc</color>
+    <color name="colorRed">#E62D37</color>
+    <color name="colorSwipe3">#fdeaeb</color>
+    <color name="colorSwipe2">#ff5e67</color>
+    <color name="colorError">#E53E39</color>
+
 </resources>

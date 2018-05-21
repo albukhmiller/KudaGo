@@ -16,7 +16,6 @@ class DetailEventPresenterImpl @Inject constructor(private val loaderDetailEvent
     init {
         loaderDetailEventInteractor.setLoaderDetailEventInteractorListener(this)
     }
-    override fun convertData(start: String, end: String) = TimeConverter().convertTime(start, end)
 
     override fun onLoadDetailEvent(id: Long) {
             loaderDetailEventInteractor.getDetailEvent(id)

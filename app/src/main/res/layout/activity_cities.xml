@@ -8,6 +8,12 @@
 
     <include layout="@layout/select_city_toolbar" />
 
+    <include
+        android:id="@+id/layoutError"
+        layout="@layout/layout_error"
+        android:visibility="gone"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvCities"
         android:layout_width="match_parent"

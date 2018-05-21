@@ -21,7 +21,7 @@ interface ServerKudaGoApi {
     @GET
     fun getEvents(@Url url: String, @Query("location") slug: String): Call<PreviewEvents>
 
-    @GET("events/{id}/?fields=body_text,location&text_format=text&expand=location")
+    @GET("events/{id}/?fields=body_text,images&expand=images&text_format=text")
     fun getDetailEvent(@Path("id") id: Long): Call<Event>
 
 }

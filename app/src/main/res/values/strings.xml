@@ -3,4 +3,6 @@
     <string name="descLogoImage">Logo</string>
     <string name="selectCity">Выберите город</string>
     <string name="whereToGo">Куда сходить</string>
+    <string name="textError">Невозможно загрузить данные, проверьте соединение с интернетом.</string>
+    <string name="todo">TODO</string>
 </resources>
