@@ -19,6 +19,7 @@ import com.alex.kudago.presentations.views.EventsView
 import kotlinx.android.synthetic.main.activity_events.*
 import kotlinx.android.synthetic.main.events_toolbar.*
 import org.jetbrains.anko.intentFor
+import java.lang.ref.WeakReference
 
 
 class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, SwipeRefreshLayout.OnRefreshListener {
@@ -130,6 +131,11 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
     }
 
     private fun loadMovies() {
+
+        var weakRvEvent = WeakReference(rvEvents)
+        var eventToolbar = WeakReference(events_toolbar)
+        var weakSplashLayout = WeakReference(splashLayout)
+
         object : AsyncTask<Void, Void, List<CacheEvent>>() {
             override fun doInBackground(vararg params: Void?) = mvpPresenter.onLoadDataOfCache()
 
@@ -138,9 +144,9 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
                 if (result!!.isNotEmpty()) {
                     itemsEvents.addAll(result!!)
                     url = itemsEvents[itemsEvents.lastIndex].next
-                    rvEvents.adapter = setAdapterRvEvent(itemsEvents)
-                    events_toolbar.visibility = View.VISIBLE
-                    splashLayout.visibility = View.GONE
+                    weakRvEvent.get()?.adapter = setAdapterRvEvent(itemsEvents)
+                    eventToolbar.get()?.visibility = View.VISIBLE
+                    weakSplashLayout.get()?.visibility = View.GONE
                 } else mvpPresenter.onLoadEvents(null, slug!!)
             }
         }.execute()
