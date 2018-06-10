@@ -1,4 +1,4 @@
-package com.alex.kudago.domain
+package com.alex.kudago.domain.interactors
 
 import com.alex.kudago.model.api.ServerKudaGoApi
 import com.alex.kudago.model.event.Event
@@ -12,10 +12,10 @@ import javax.inject.Inject
  */
 class LoaderDetailEventInteractor @Inject constructor(private val serverApi: ServerKudaGoApi) {
 
-    private var listener: LoadDetailEventInteractorListener? = null
+    private var listener: InteractorListener? = null
 
 
-    fun setLoaderDetailEventInteractorListener(listener: LoadDetailEventInteractorListener) {
+    fun setLoaderDetailEventInteractorListener(listener: InteractorListener) {
         this.listener = listener
     }
 
@@ -24,11 +24,11 @@ class LoaderDetailEventInteractor @Inject constructor(private val serverApi: Ser
         serverApi.getDetailEvent(id).enqueue(object : Callback<Event> {
 
             override fun onFailure(call: Call<Event>?, t: Throwable?) {
-                listener?.onFailureLoadDetailEvent()
+                listener?.onFailureLoad()
             }
 
             override fun onResponse(call: Call<Event>?, response: Response<Event>?) {
-                listener?.onSuccessLoadDetailEvent(response?.body()!!)
+                listener?.onSuccessLoad(response?.body()!!)
             }
         })
     }

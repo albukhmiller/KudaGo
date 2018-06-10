@@ -13,13 +13,18 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_detail_event.*
-import org.jetbrains.anko.toast
 import ss.com.bannerslider.Slider
 import android.content.Intent
 import android.net.Uri
+import android.support.constraint.ConstraintLayout
 import android.util.Log
+import android.widget.RelativeLayout
 import com.alex.kudago.data.database.CacheEvent
+import kotlinx.android.synthetic.main.activity_events.*
 import kotlinx.android.synthetic.main.detail_event_toolbar.*
+import kotlinx.android.synthetic.main.layout_error.*
+import kotlinx.android.synthetic.main.select_city_toolbar.*
+import org.jetbrains.anko.support.v4.onRefresh
 
 
 class DetailEventActivity : BaseActivity<DetailEventView, DetailEventPresenter>(), DetailEventView {
@@ -35,10 +40,11 @@ class DetailEventActivity : BaseActivity<DetailEventView, DetailEventPresenter>(
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_event)
 
-        setSupportActionBar(events_detail_toolbar)
         eventIntent = intent.getParcelableExtra("event")
         mvpPresenter.onLoadDetailEvent(eventIntent!!.id)
 
+        swipeLoadDetail.setColorSchemeResources(R.color.colorRed)
+        swipeLoadDetail.onRefresh { mvpPresenter.onLoadDetailEvent(eventIntent!!.id) }
         setListener()
 
         initView()
@@ -46,15 +52,19 @@ class DetailEventActivity : BaseActivity<DetailEventView, DetailEventPresenter>(
     }
 
     override fun onSuccessLoadDetailEvent(event: Event) {
-        layoutErrors.visibility = View.GONE
-
+        rootViewError.visibility = View.GONE
+        swipeLoadDetail.isRefreshing = false
+        layoutLoaderDetail.visibility = View.GONE
         Slider.init(LoaderImage())
         sliderImage.setAdapter(SliderImageAdapter(event!!.images))
         tvSubscription.text = event.subscription
     }
 
     override fun onFailureLoadDetailEvent() {
-        layoutErrors.visibility = View.VISIBLE
+        swipeLoadDetail.isRefreshing = false
+        layoutLoaderDetail.visibility = View.GONE
+        rootViewError.visibility = View.VISIBLE
+        showSnackbar()
     }
 
 
@@ -94,7 +104,6 @@ class DetailEventActivity : BaseActivity<DetailEventView, DetailEventPresenter>(
             tvPrice.text = eventIntent!!.price
         else
             tvPrice.visibility = View.GONE
-
         tvDescriptionDetailEvent.text = eventIntent!!.description
 
         if (eventIntent!!.address != null) {

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v4.widget.NestedScrollView
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.alex.kudago.App
 import com.alex.kudago.R
@@ -18,6 +17,7 @@ import com.alex.kudago.presentations.ui.recyclerView.adapters.EventsAdapter
 import com.alex.kudago.presentations.views.EventsView
 import kotlinx.android.synthetic.main.activity_events.*
 import kotlinx.android.synthetic.main.events_toolbar.*
+import kotlinx.android.synthetic.main.layout_error.*
 import org.jetbrains.anko.intentFor
 import java.lang.ref.WeakReference
 
@@ -25,10 +25,7 @@ import java.lang.ref.WeakReference
 class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, SwipeRefreshLayout.OnRefreshListener {
 
     private val SELECT_CITY = 1
-
-    private var url: String? = null
-    private var slug: String = "msk"
-    private var city: String = "Москва"
+    private var city: City? = null
     private var itemsEvents = mutableListOf<CacheEvent>()
     private var adapter: EventsAdapter? = null
 
@@ -44,15 +41,13 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
         setListener()
 
         var fixedCity = mvpPresenter.getUserCity()
-        if (fixedCity!!.isEmpty()) {
-            mvpPresenter.onSaveUserCity("Москва", slug!!)
+        if (fixedCity!![0].isEmpty()) {
+            mvpPresenter.onSaveUserCity("Москва", "msk")
             fixedCity = mvpPresenter.getUserCity()
         }
+        city = City(fixedCity!!.elementAt(1), fixedCity!!.elementAt(0), false, 0)
 
-        slug = fixedCity!!.elementAt(1)
-        city = fixedCity!!.elementAt(0)
-
-        btnSelectCity.text = city
+        btnSelectCity.text = city!!.name
 
         swipe.setColorSchemeResources(R.color.colorRed)
         swipe.setOnRefreshListener(this)
@@ -62,16 +57,15 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
         if (resultCode == Activity.RESULT_OK)
             if (requestCode == SELECT_CITY)
                 if (data != null) {
-                    splashLayout.visibility = View.VISIBLE
+                    layoutLoader.visibility = View.VISIBLE
 
                     var newCity = data.getParcelableExtra<City>("newCity")
                     btnSelectCity.text = newCity.name
-                    slug = newCity.slug
+                    city!!.slug = newCity.slug
 
-                    mvpPresenter.onSaveUserCity(newCity.name, slug)
-                    mvpPresenter.onChangeCity(slug)
-
-                    rvEvents.scrollToPosition(0)
+                    mvpPresenter.onSaveUserCity(newCity.name, city!!.slug)
+                    mvpPresenter.onChangeCity(city!!.slug)
+                    scrollEvents.scrollTo(0, 0)
                     itemsEvents.removeAll(itemsEvents)
 
                 }
@@ -79,29 +73,32 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
     }
 
     override fun onRefresh() {
-        mvpPresenter.onChangeCity(slug)
+        layoutLoader.visibility = View.VISIBLE
+        mvpPresenter.onChangeCity(city!!.slug)
         itemsEvents.removeAll(itemsEvents)
     }
 
     override fun onSuccessLoadPreviewEvents(events: List<CacheEvent>) {
-        layoutErrorInternet.visibility = View.GONE
-        url = events[0].next
+        app_bar.visibility = View.VISIBLE
+        rootViewError.visibility = View.GONE
         itemsEvents.addAll(events)
         swipe.isRefreshing = false
 
         if (adapter == null) {
             rvEvents.adapter = setAdapterRvEvent(itemsEvents)
-            splashLayout.visibility = View.GONE
+            layoutLoader.visibility = View.GONE
             events_toolbar.visibility = View.VISIBLE
         }
 
-        splashLayout.visibility = View.GONE
+        layoutLoader.visibility = View.GONE
         adapter?.notifyDataSetChanged()
     }
 
     override fun onFailureLoadPreviewEvents() {
         swipe.isRefreshing = false
-        layoutErrorInternet.visibility = View.VISIBLE
+        app_bar.visibility = View.GONE
+        rootViewError.visibility = View.VISIBLE
+        showSnackbar()
     }
 
     private fun setListener() {
@@ -110,17 +107,16 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
         })
         scrollEvents.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
 
-
             if (v.getChildAt(v.childCount - 1) != null)
                 if (scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight) && scrollY > oldScrollY) {
-                    mvpPresenter.onLoadEvents(url!!, slug!!)
+                    mvpPresenter.onLoadEvents(city!!.slug!!)
                 }
 
         })
     }
 
     private fun initRecyclerEvent() {
-        rvEvents.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
+        rvEvents.layoutManager = LinearLayoutManager(this)
         rvEvents.setHasFixedSize(true)
 
         loadMovies()
@@ -132,9 +128,7 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
 
     private fun loadMovies() {
 
-        var weakRvEvent = WeakReference(rvEvents)
-        var eventToolbar = WeakReference(events_toolbar)
-        var weakSplashLayout = WeakReference(splashLayout)
+        var weakRefActivity = WeakReference(this)
 
         object : AsyncTask<Void, Void, List<CacheEvent>>() {
             override fun doInBackground(vararg params: Void?) = mvpPresenter.onLoadDataOfCache()
@@ -142,14 +136,13 @@ class EventsActivity : BaseActivity<EventsView, EventsPresenter>(), EventsView, 
             override fun onPostExecute(result: List<CacheEvent>?) {
                 super.onPostExecute(result)
                 if (result!!.isNotEmpty()) {
+                    layoutLoader.visibility = View.GONE
+                    app_bar.visibility = View.VISIBLE
                     itemsEvents.addAll(result!!)
-                    url = itemsEvents[itemsEvents.lastIndex].next
-                    weakRvEvent.get()?.adapter = setAdapterRvEvent(itemsEvents)
-                    eventToolbar.get()?.visibility = View.VISIBLE
-                    weakSplashLayout.get()?.visibility = View.GONE
-                } else mvpPresenter.onLoadEvents(null, slug!!)
+                    weakRefActivity.get()?.rvEvents?.adapter = setAdapterRvEvent(itemsEvents)
+                    weakRefActivity.get()?.events_toolbar?.visibility = View.VISIBLE
+                } else mvpPresenter.onLoadEvents(city!!.slug!!)
             }
         }.execute()
     }
-
 }

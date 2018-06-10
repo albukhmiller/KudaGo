@@ -6,27 +6,28 @@ import android.os.Parcelable
 /**
  * Created by alex on 08.05.2018.
  */
-data class City(var slug: String, var name: String) : Parcelable {
-
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.writeString(slug)
-        dest?.writeString(name)
-    }
+data class City(var slug: String, var name: String, var isSelected: Boolean = false, var position: Int) : Parcelable {
+    constructor(source: Parcel) : this(
+            source.readString(),
+            source.readString(),
+            1 == source.readInt(),
+            source.readInt()
+    )
 
     override fun describeContents() = 0
 
-    constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString())
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(slug)
+        writeString(name)
+        writeInt((if (isSelected) 1 else 0))
+        writeInt(position)
+    }
 
-
-    companion object CREATOR : Parcelable.Creator<City> {
-        override fun createFromParcel(parcel: Parcel): City {
-            return City(parcel)
-        }
-
-        override fun newArray(size: Int): Array<City?> {
-            return arrayOfNulls(size)
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<City> = object : Parcelable.Creator<City> {
+            override fun createFromParcel(source: Parcel): City = City(source)
+            override fun newArray(size: Int): Array<City?> = arrayOfNulls(size)
         }
     }
 }

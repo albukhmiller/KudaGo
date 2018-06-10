@@ -1,4 +1,4 @@
-package com.alex.kudago.domain
+package com.alex.kudago.domain.interactors
 
 import com.alex.kudago.model.City
 import com.alex.kudago.model.api.ServerKudaGoApi
@@ -12,9 +12,9 @@ import javax.inject.Inject
  */
 class LoaderCitiesInteractor @Inject constructor(private val serverApi: ServerKudaGoApi) {
 
-    private var listener: InteractorListenerCity? = null
+    private var listener: InteractorListener? = null
 
-    fun setInteractorListener(listener: InteractorListenerCity) {
+    fun setInteractorListener(listener: InteractorListener) {
         this.listener = listener
     }
 
@@ -22,13 +22,12 @@ class LoaderCitiesInteractor @Inject constructor(private val serverApi: ServerKu
         serverApi.getCitiesList()
                 .enqueue(object : Callback<ArrayList<City>> {
                     override fun onFailure(call: Call<ArrayList<City>>?, t: Throwable?) {
-                        listener?.onFailureLoadCitiesList()
+                        listener?.onFailureLoad()
                     }
 
                     override fun onResponse(call: Call<ArrayList<City>>?, response: Response<ArrayList<City>>?) {
-                        listener?.onSuccessLoadCitiesList(response?.body()!!)
+                        listener?.onSuccessLoad(response?.body()!!)
                     }
                 })
-
     }
 }

@@ -1,11 +1,15 @@
 package com.alex.kudago.presentations.ui.recyclerView.holders
 
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.alex.kudago.R
 import com.alex.kudago.data.database.CacheEvent
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_events.view.*
+import org.jetbrains.anko.margin
 
 /**
  * Created by alex on 09.05.2018.
@@ -22,7 +26,8 @@ class EventsHolder(itemView: View, private val isBody: Boolean) : RecyclerView.V
 
             if (!item.price.isEmpty())
                 itemView.tvMoney.text = item.price
-            else itemView.tvMoney.visibility = View.GONE
+            else
+                itemView.tvMoney.visibility = View.GONE
 
             if (item.address != null)
                 itemView.tvLocation.text = item.address

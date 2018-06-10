@@ -1,9 +1,7 @@
 package com.alex.kudago.presentations.presentersImpls
 
-import com.alex.kudago.data.database.CacheEvent
-import com.alex.kudago.domain.InteractorListenerCity
-import com.alex.kudago.domain.InteractorListenerEvent
-import com.alex.kudago.domain.LoaderCitiesInteractor
+import com.alex.kudago.domain.interactors.InteractorListener
+import com.alex.kudago.domain.interactors.LoaderCitiesInteractor
 import com.alex.kudago.model.City
 import com.alex.kudago.presentations.presenters.CitiesPresenter
 import com.alex.kudago.presentations.views.CitiesView
@@ -12,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by alex on 08.05.2018.
  */
-class CitiesPresenterImpl @Inject constructor(private val loaderCitiesInteractor: LoaderCitiesInteractor) : BaseMvpPresenterImpl<CitiesView>(), CitiesPresenter, InteractorListenerCity {
+class CitiesPresenterImpl @Inject constructor(private val loaderCitiesInteractor: LoaderCitiesInteractor) : BaseMvpPresenterImpl<CitiesView>(), CitiesPresenter, InteractorListener {
 
     init {
         loaderCitiesInteractor.setInteractorListener(this)
@@ -22,11 +20,11 @@ class CitiesPresenterImpl @Inject constructor(private val loaderCitiesInteractor
         loaderCitiesInteractor.loadCitiesList()
     }
 
-    override fun onSuccessLoadCitiesList(cities: ArrayList<City>) {
-        mView?.onSuccessLoadCitiesList(cities)
+    override fun <T> onSuccessLoad(cities: T) {
+        mView?.onSuccessLoadCitiesList(cities as ArrayList<City>)
     }
 
-    override fun onFailureLoadCitiesList() {
+    override fun onFailureLoad() {
         mView?.onFailureLoadCitiesList()
     }
 

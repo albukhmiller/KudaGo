@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeCity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.alex.kudago.presentations.ui.activities.CitiesActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <include layout="@layout/select_city_toolbar" />
 
-    <include
-        android:id="@+id/layoutError"
-        layout="@layout/layout_error"
-        android:visibility="gone"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvCities"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.alex.kudago.presentations.ui.activities.CitiesActivity">
+
+        <include
+            layout="@layout/select_city_toolbar"
+            android:visibility="gone" />
+
+
+        <include
+            android:id="@+id/layoutLoaderCity"
+            layout="@layout/layout_loader" />
+
+
+        <include
+            layout="@layout/layout_error"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvCities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

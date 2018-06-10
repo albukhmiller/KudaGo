@@ -8,7 +8,7 @@ import com.alex.kudago.presentations.views.EventsView
  */
 interface EventsPresenter : BaseMvpPresenter<EventsView> {
 
-    fun onLoadEvents(url: String?, slug: String)
+    fun onLoadEvents(slug: String)
 
     fun onLoadDataOfCache(): List<CacheEvent>
 
