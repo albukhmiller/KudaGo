@@ -1,0 +1,30 @@
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/events_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_gravity="center_vertical"
+    app:layout_collapseMode="pin"
+    app:logo="@drawable/ic_logo">
+
+    <RelativeLayout
+        android:id="@+id/layoutRvEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:clipToPadding="false">
+
+        <Button
+            android:id="@+id/btnSelectCity"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:drawableEnd="@drawable/ic_city"
+            android:drawablePadding="9dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorCity"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>

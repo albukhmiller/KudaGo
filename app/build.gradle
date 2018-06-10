@@ -1,3 +1,4 @@
+//noinspection GradleCompatible
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -24,14 +25,13 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -40,4 +40,27 @@ dependencies {
     //Dagger 2
     implementation 'com.google.dagger:dagger:2.5'
     kapt 'com.google.dagger:dagger-compiler:2.5'
+
+    //RecyclerView
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+
+    //Retrofit 2
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //Anko
+    implementation "org.jetbrains.anko:anko:0.10.5"
+    compile "org.jetbrains.anko:anko-design:0.10.5"
+
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Slider
+    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    kapt "android.arch.persistence.room:compiler:1.0.0"
+
+
 }

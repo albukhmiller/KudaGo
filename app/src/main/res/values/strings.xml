@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">KudaGo</string>
+    <string name="descLogoImage">Logo</string>
+    <string name="selectCity">Выберите город</string>
+    <string name="whereToGo">Куда сходить</string>
+    <string name="textError">Невозможно загрузить данные, проверьте соединение с интернетом.</string>
+    <string name="todo">TODO</string>
+    <string name="text_error_view">Ошибка загрузки данных, проверьте соединение с интернетом</string>
+    <string name="textВirections">Проложить маршрут</string>
 </resources>
